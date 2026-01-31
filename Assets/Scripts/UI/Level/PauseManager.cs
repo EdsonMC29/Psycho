@@ -1,0 +1,83 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+public class PauseManager : MonoBehaviour
+{
+    public static PauseManager Instance { get; private set; }
+
+    [Header("Configuracion de Menu Pausa")]
+    public GameObject objetoMenuPausa;
+    private bool juegoPausado = false;
+
+    private void Awake()
+    {
+        // Singleton para acceso global
+        if (Instance == null)
+        {
+            Instance = this;
+            // Opcional: DontDestroyOnLoad(gameObject); si quieres que la pausa sea global
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void Update()
+    {
+        // Detecta la tecla P
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (juegoPausado)
+            {
+                Reanudar();
+            }
+            else
+            {
+                Pausar();
+            }
+        }
+    }
+
+    public void Pausar()
+    {
+        juegoPausado = true;
+        objetoMenuPausa.SetActive(true);
+
+        // Detener el tiempo
+        Time.timeScale = 0f;
+    }
+
+    public void Reanudar()
+    {
+        juegoPausado = false;
+        objetoMenuPausa.SetActive(false);
+
+        // Devuelve el tiempo a la normalidad
+        Time.timeScale = 1f;
+
+    }
+    public void ReiniciarNivel()
+    {
+        // Quitar la pausa antes de cargar
+        Time.timeScale = 1f;
+
+        int escenaActual = SceneManager.GetActiveScene().buildIndex;
+
+        if (TransicionEscenasUI.Instance != null)
+        {
+            TransicionEscenasUI.Instance.DisolverSalida(escenaActual);
+        }
+        else
+        {
+            SceneManager.LoadScene(escenaActual);
+        }
+    }
+    public void IrAlMenuPrincipal()
+    {
+        Time.timeScale = 1f;
+        if (TransicionEscenasUI.Instance != null)
+        {
+            TransicionEscenasUI.Instance.DisolverSalida(0);
+        }
+    }
+}
