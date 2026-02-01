@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -289}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -279.8513}
+  m_SizeDelta: {x: 0, y: 1.7037}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &877094083
 MonoBehaviour:
@@ -233,7 +233,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -13.1, y: 0}
+  m_AnchoredPosition: {x: -13.1, y: 1.4999988}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &972629908
@@ -257,7 +257,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\rDise\xF1o del Juego\r\nEquipo PsychoTeam\r\n\r\nSonido\r\nSFX \u2013
-    freesound.org\r\nM\xFAsica \u2013 pixabay.com\r\n\r\nSoftware\r\nUnity\r\nLibreSprite\r\n\r\nAgradecimientos\r\nGracias
+    freesound.org\r\nSFX y M\xFAsica \u2013 pixabay.com\r\n\r\nSoftware\r\nUnity\r\nLibreSprite\r\nReaper\r\n\nAgradecimientos\r\nGracias
     a todos los participantes de la Jam\r\n\r\nGracias por jugar"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1143,7 +1143,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2119656025
@@ -1168,9 +1168,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "2026 \u2013 Psycho\r\nDirecci\xF3n\r\nEdson Miranda Callo\r\n\r\nProgramaci\xF3n\r\nAndres
     Raul Ore Soto\r\nEdson Miranda Callo\r\nLeonardo Raphael Pachari G\xF3mez\r\nMaxs
-    Sebastian Joaquin Forocca Mamani\r\n\r\nArte & Sonido\r\nAndy Briyit Huamani
-    Tacoma\r\nBrayan Wilson Flores Gonzales\r\nFarid Sebastian Lopez Sanchez\r\nCarlos
-    Daniel Umasi Cariapaza\r\n"
+    Sebastian Joaquin Forocca Mamani\r\nFarid Sebastian Lopez Sanchez\r\r\n\nArte
+    & Sonido\r\nAndy Briyit Huamani Tacoma\r\nBrayan Wilson Flores Gonzales\r\nFarid
+    Sebastian Lopez Sanchez\r\nCarlos Daniel Umasi Cariapaza\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
