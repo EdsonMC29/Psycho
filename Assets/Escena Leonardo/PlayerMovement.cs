@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private float moveInput;
+    public AudioSource pasos;
 
     void Start()
     {
@@ -23,6 +24,18 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.flipX = false;
         else if (moveInput < 0)
             spriteRenderer.flipX = true;
+
+
+        // Sonido de pasos
+        if (Input.GetButton("Horizontal"))
+        {
+            if (!pasos.isPlaying)
+                pasos.Play();
+        }
+        else
+        {
+            pasos.Stop();
+        }
     }
 
     void FixedUpdate()
