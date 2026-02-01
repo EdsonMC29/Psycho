@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
+
 public class PauseManager : MonoBehaviour
 {
     public static PauseManager Instance { get; private set; }
+    [Header("Configuracion de Sonido")]
+    public AudioMixer mixer; // Mixer
 
     [Header("Configuracion de Menu Pausa")]
     public GameObject objetoMenuPausa;
@@ -45,6 +49,9 @@ public class PauseManager : MonoBehaviour
 
         // Detener el tiempo
         Time.timeScale = 0f;
+
+        // ESTO PAUSA TODO EL AUDIO DEL JUEGO
+        mixer.SetFloat("SFX", -80f);
     }
 
     public void Reanudar()
@@ -54,13 +61,15 @@ public class PauseManager : MonoBehaviour
 
         // Devuelve el tiempo a la normalidad
         Time.timeScale = 1f;
-
+        // ESTO REANUDA EL AUDIO
+        mixer.SetFloat("SFX", -0f);
     }
     public void ReiniciarNivel()
     {
         // Quitar la pausa antes de cargar
         Time.timeScale = 1f;
-
+        // ESTO REANUDA EL AUDIO
+        mixer.SetFloat("SFX", -0f);
         int escenaActual = SceneManager.GetActiveScene().buildIndex;
 
         if (TransicionEscenasUI.Instance != null)
@@ -70,6 +79,7 @@ public class PauseManager : MonoBehaviour
         else
         {
             SceneManager.LoadScene(escenaActual);
+            
         }
     }
     public void IrAlMenuPrincipal()
