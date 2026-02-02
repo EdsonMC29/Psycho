@@ -151,7 +151,7 @@ RectTransform:
   m_GameObject: {fileID: 39356258}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.0801618, y: 2.3506083, z: 2.0801618}
+  m_LocalScale: {x: 2.1284306, y: 2.4051528, z: 2.1284306}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1137412347}
@@ -159,7 +159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000030517578, y: -476}
+  m_AnchoredPosition: {x: 0.000030517578, y: -444}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &39356260
@@ -298,7 +298,7 @@ RectTransform:
   m_GameObject: {fileID: 150791938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.052714, y: 10.739693, z: 4.052714}
+  m_LocalScale: {x: 4.081488, y: 9.518031, z: 4.081488}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 981427621}
@@ -307,8 +307,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -289}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.37535858, y: -297}
+  m_SizeDelta: {x: 0, y: 3.687}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &150791940
 MonoBehaviour:
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.41760764, g: 0.645283, b: 0.55395204, a: 0.392}
+  m_Color: {r: 0.053378392, g: 0.23773581, b: 0.15989603, a: 0.8235294}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -648,7 +648,7 @@ RectTransform:
   m_GameObject: {fileID: 320250378}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6579674, y: 1.6579674, z: 1.6579674}
+  m_LocalScale: {x: 1.6579674, y: 1.493663, z: 1.6579674}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 150791939}
@@ -656,7 +656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -86.515945}
+  m_AnchoredPosition: {x: 0.000030517578, y: -100.75}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &320250380
@@ -681,15 +681,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "CR\xC9DITOS"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a7555e28a8608f4eb48df5b00fc4a8d, type: 2}
+  m_sharedMaterial: {fileID: 3176761702917939238, guid: 8a7555e28a8608f4eb48df5b00fc4a8d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284804850
+  m_fontColor: {r: 0.94716984, g: 0.9345227, b: 0.39137772, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -706,8 +706,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -742,7 +742,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 11.144648, z: 0, w: -34.707233}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1397,7 +1397,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &565598332
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1800,7 +1800,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 3.6056137, z: 61.29805, w: 2.3075943}
+  m_margin: {x: 0, y: 3.6056137, z: 61.29805, w: 0.302989}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2269,8 +2269,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Regresar
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a7555e28a8608f4eb48df5b00fc4a8d, type: 2}
+  m_sharedMaterial: {fileID: 3176761702917939238, guid: 8a7555e28a8608f4eb48df5b00fc4a8d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2294,8 +2294,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2381,7 +2381,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -3}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272139164
@@ -3101,7 +3101,7 @@ RectTransform:
   m_GameObject: {fileID: 1844688092}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2185223, y: 1.7303005, z: 1.2185223}
+  m_LocalScale: {x: 1.244355, y: 1.7669828, z: 1.244355}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1272139163}
@@ -3341,7 +3341,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\rDise\xF1o del Juego\r\nEquipo PsychoTeam\r\n\r\nSonido\r\nSFX \u2013
-    freesound.org\r\nM\xFAsica \u2013 pixabay.com\r\n\r\nSoftware\r\nUnity\r\nLibreSprite\r\n\r\nAgradecimientos\r\nGracias
+    freesound.org\r\nM\xFAsica \u2013 pixabay.com\r\nVEO - https://gemini.google.com/\n\r\nSoftware\r\nUnity\r\nLibreSprite\r\n\r\nAgradecimientos\r\nGracias
     a todos los participantes de la Jam\r\n\r\nGracias por jugar"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3405,7 +3405,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 75.136314, y: 3.6056137, z: 0, w: 2.3075943}
+  m_margin: {x: 75.136314, y: 3.6056137, z: 0, w: 2.9691296}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
