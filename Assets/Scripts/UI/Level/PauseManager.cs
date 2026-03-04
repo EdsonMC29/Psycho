@@ -66,10 +66,13 @@ public class PauseManager : MonoBehaviour
     }
     public void ReiniciarNivel()
     {
-        // Quitar la pausa antes de cargar
         Time.timeScale = 1f;
-        // ESTO REANUDA EL AUDIO
-        mixer.SetFloat("SFX", -0f);
+
+        if (mixer != null)
+        {
+            mixer.SetFloat("SFX", 0f);
+        }
+
         int escenaActual = SceneManager.GetActiveScene().buildIndex;
 
         if (TransicionEscenasUI.Instance != null)
@@ -79,15 +82,15 @@ public class PauseManager : MonoBehaviour
         else
         {
             SceneManager.LoadScene(escenaActual);
-            
         }
-    }
+    }   
     public void IrAlMenuPrincipal()
     {
         Time.timeScale = 1f;
         if (TransicionEscenasUI.Instance != null)
         {
             TransicionEscenasUI.Instance.DisolverSalida(0);
+            SceneManager.LoadScene("MenuInicio");
         }
     }
 }

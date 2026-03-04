@@ -10,7 +10,6 @@ public class CambioEstados : MonoBehaviour
     public GameObject playerTarget; 
 
     private Animator playerAnimator;
-    private Collider2D playerCollider;
 
     [Header("UI - Imágenes Overlay")]
     public Image imagenIra;
@@ -18,20 +17,19 @@ public class CambioEstados : MonoBehaviour
     public Image imagenFelicidad;
 
     [Header("UI - Configuración de Color")]
-    [Tooltip("Ajusta la barra 'A' (Alpha) para la transparencia máxima deseada")]
     public Color colorIra = new Color(1f, 0f, 0f, 0.5f);        
     public Color colorMiedo = new Color(0f, 0f, 1f, 0.5f);      
     public Color colorFelicidad = new Color(1f, 1f, 0f, 0.5f);  
 
-    [Header("UI - Configuración de Fades (Suavizado)")]
-    [Range(0.1f, 3f)] public float duracionFadeIn = 0.5f;  // Tiempo para aparecer
-    [Range(0.1f, 3f)] public float duracionFadeOut = 0.5f; // Tiempo para desaparecer
+    [Header("UI - Configuración de Fades")]
+    [Range(0.1f, 3f)] public float duracionFadeIn = 0.5f;
+    [Range(0.1f, 3f)] public float duracionFadeOut = 0.5f;
 
     [Header("Listas de Objetos")]
     public List<GameObject> listaEnemigos;
     public List<GameObject> listaPuertas;
 
-    [Header("Duracion Total de Efectos (Incluye fades)")]
+    [Header("Duración Total de Efectos")]
     [SerializeField] private float duracionIra = 10f;
     [SerializeField] private float duracionMiedo = 20f;
     [SerializeField] private float duracionFelicidad = 25f;
@@ -41,195 +39,168 @@ public class CambioEstados : MonoBehaviour
     [SerializeField] private float cooldownMiedo = 20f;
     [SerializeField] private float cooldownFelicidad = 25f;
 
-    private bool enCooldown = false;
+    // Ya no usamos un booleano global de cooldown
     private bool emocionActiva = false;
     private string emocionActual = "";
 
     [Header("UI - Temporizadores")]
-    [SerializeField] private TemporizadorBarras temporizadorBarrasFeliz;
     [SerializeField] private TemporizadorBarras temporizadorBarrasIra;
     [SerializeField] private TemporizadorBarras temporizadorBarrasMiedo;
+    [SerializeField] private TemporizadorBarras temporizadorBarrasFeliz;
 
     void Start()
+{
+    // 1. Verificación de seguridad
+    if (playerTarget == null) 
     {
-        if (playerTarget == null) { Debug.LogError("⛔ ERROR: Asigna el Player Target."); return; }
-
-        playerAnimator = playerTarget.GetComponent<Animator>();
-        playerCollider = playerTarget.GetComponent<Collider2D>();
-
-        // Asegurar que empiecen apagadas y transparentes
-        InicializarImagen(imagenIra, colorIra);
-        InicializarImagen(imagenMiedo, colorMiedo);
-        InicializarImagen(imagenFelicidad, colorFelicidad);
-
-        PlayerUnifiedRelay relay = playerTarget.AddComponent<PlayerUnifiedRelay>();
-        relay.managerEstados = this; 
+        Debug.LogError("⛔ ERROR: No has asignado el PlayerTarget en el Inspector.");
+        return;
     }
+
+    // 2. Obtener Animator
+    playerAnimator = playerTarget.GetComponent<Animator>();
+
+    // 3. Configurar imágenes de UI
+    InicializarImagen(imagenIra, colorIra);
+    InicializarImagen(imagenMiedo, colorMiedo);
+    InicializarImagen(imagenFelicidad, colorFelicidad);
+
+    // 4. Configurar el Relay de forma segura
+    // Primero revisamos si ya existe para no duplicarlo
+    PlayerUnifiedRelay relay = playerTarget.GetComponent<PlayerUnifiedRelay>();
+    if (relay == null)
+    {
+        relay = playerTarget.AddComponent<PlayerUnifiedRelay>();
+    }
+    relay.managerEstados = this;
+}
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-            ActivarEmocion("Ira", duracionIra, cooldownIra, temporizadorBarrasIra, imagenIra, colorIra);
+        // 1. Ira con tecla 1
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            IntentarActivarEmocion("Ira", duracionIra, cooldownIra, temporizadorBarrasIra, imagenIra, colorIra);
         
-        if (Input.GetKeyDown(KeyCode.Y)) 
-            ActivarEmocion("Miedo", duracionMiedo, cooldownMiedo, temporizadorBarrasMiedo, imagenMiedo, colorMiedo);
+        // 2. Miedo con tecla 2
+        if (Input.GetKeyDown(KeyCode.Alpha2)) 
+            IntentarActivarEmocion("Miedo", duracionMiedo, cooldownMiedo, temporizadorBarrasMiedo, imagenMiedo, colorMiedo);
         
-        if (Input.GetKeyDown(KeyCode.H))
-            ActivarEmocion("Felicidad", duracionFelicidad, cooldownFelicidad, temporizadorBarrasFeliz, imagenFelicidad, colorFelicidad);
+        // 3. Felicidad con tecla 3
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            IntentarActivarEmocion("Felicidad", duracionFelicidad, cooldownFelicidad, temporizadorBarrasFeliz, imagenFelicidad, colorFelicidad);
     }
 
-    void ActivarEmocion(string emocion, float duracionTotal, float cooldown, TemporizadorBarras temporizador, Image imgOverlay, Color colorObjetivo)
+    void IntentarActivarEmocion(string nombre, float duracion, float cooldown, TemporizadorBarras temp, Image img, Color col)
     {
-        if (enCooldown || emocionActiva) return;
-        
-        // Validación de seguridad: el tiempo total debe ser mayor que la suma de los fades
-        if (duracionTotal <= (duracionFadeIn + duracionFadeOut))
+        // Regla 1: No se puede activar nada si ya hay una emoción en curso (duración)
+        if (emocionActiva) return;
+
+        // Regla 2: Solo se bloquea si el temporizador específico está ocupado (en su propio cooldown)
+        if (temp != null && temp.EstaOcupado) 
         {
-            Debug.LogWarning("La duración total del efecto es muy corta para los tiempos de fade configurados.");
-            duracionTotal = duracionFadeIn + duracionFadeOut + 0.1f; // Ajuste mínimo de seguridad
+            Debug.Log(nombre + " está en cooldown.");
+            return;
         }
 
-        StartCoroutine(EmocionCoroutine(emocion, duracionTotal, cooldown, temporizador, imgOverlay, colorObjetivo));
+        StartCoroutine(EmocionCoroutine(nombre, duracion, cooldown, temp, img, col));
     }
 
     IEnumerator EmocionCoroutine(string emocion, float duracionTotal, float cooldown, TemporizadorBarras temporizador, Image imgOverlay, Color colorObjetivo)
     {
-        // --- INICIO ---
         emocionActiva = true;
         emocionActual = emocion;
         
         if(playerAnimator != null) playerAnimator.SetBool(emocion, true);
         if(temporizador != null) temporizador.IniciarDuracion(duracionTotal);
 
-        // 1. INICIAR FADE IN (Aparecer suavemente)
         StartCoroutine(RutinaFadeIn(imgOverlay, colorObjetivo));
 
-        switch (emocion)
-        {
-            case "Felicidad": ToggleEnemigos(false); break;
-        }
+        if (emocion == "Felicidad") ToggleEnemigos(false);
 
-        // Calcular el tiempo de espera central (Duración total menos lo que tardan los fades)
         float tiempoDeEsperaCentral = duracionTotal - duracionFadeIn - duracionFadeOut;
-        
-        // Esperar el tiempo de Fade In + el tiempo central
         yield return new WaitForSeconds(duracionFadeIn + tiempoDeEsperaCentral);
 
-        // --- FIN ---
-        // 2. INICIAR FADE OUT (Desaparecer suavemente)
-        // Usamos 'yield return' aquí para esperar a que termine el desvanecido antes de seguir
         yield return StartCoroutine(RutinaFadeOut(imgOverlay));
 
         if(playerAnimator != null) playerAnimator.SetBool(emocion, false);
-
-        switch (emocion)
-        {
-            case "Felicidad": ToggleEnemigos(true); break;
-        }
+        if (emocion == "Felicidad") ToggleEnemigos(true);
 
         emocionActiva = false;
         emocionActual = "";
 
-        // COOLDOWN
-        enCooldown = true;
+        // Al terminar, solo este temporizador entra en cooldown
         if(temporizador != null) temporizador.IniciarCooldown(cooldown);
-        yield return new WaitForSeconds(cooldown);
-        enCooldown = false;
     }
 
-    // =========================================================
-    // NUEVAS FUNCIONES PARA EL SUAVIZADO (FADES)
-    // =========================================================
+    // --- MÉTODOS DE APOYO (Sin cambios significativos) ---
 
-    // Configura la imagen al inicio para que esté lista pero invisible
     void InicializarImagen(Image img, Color colorBase)
     {
         if (img == null) return;
-        // La ponemos del color correcto pero totalmente transparente (Alpha 0)
         img.color = new Color(colorBase.r, colorBase.g, colorBase.b, 0f);
         img.gameObject.SetActive(false);
     }
 
-    // Corrutina para aparecer suavemente
     IEnumerator RutinaFadeIn(Image img, Color colorObjetivo)
     {
         if (img == null) yield break;
-        
-        img.gameObject.SetActive(true); // Encendemos el objeto
-        
-        Color colorInicial = new Color(colorObjetivo.r, colorObjetivo.g, colorObjetivo.b, 0f); // Empieza transparente
-        img.color = colorInicial;
-
-        float tiempoTranscurrido = 0f;
-
-        while (tiempoTranscurrido < duracionFadeIn)
+        img.gameObject.SetActive(true);
+        float t = 0;
+        while (t < duracionFadeIn)
         {
-            tiempoTranscurrido += Time.deltaTime;
-            // Lerp interpola suavemente entre el color transparente y el color objetivo
-            img.color = Color.Lerp(colorInicial, colorObjetivo, tiempoTranscurrido / duracionFadeIn);
-            yield return null; // Esperar al siguiente frame
+            t += Time.deltaTime;
+            img.color = Color.Lerp(new Color(colorObjetivo.r, colorObjetivo.g, colorObjetivo.b, 0f), colorObjetivo, t / duracionFadeIn);
+            yield return null;
         }
-        
-        // Asegurar que al final quede exactamente del color objetivo
-        img.color = colorObjetivo;
     }
 
-    // Corrutina para desaparecer suavemente
     IEnumerator RutinaFadeOut(Image img)
     {
         if (img == null) yield break;
-
-        Color colorActual = img.color;
-        Color colorFinalTransparente = new Color(colorActual.r, colorActual.g, colorActual.b, 0f); // Destino: transparente
-
-        float tiempoTranscurrido = 0f;
-
-        while (tiempoTranscurrido < duracionFadeOut)
+        Color inicial = img.color;
+        Color final = new Color(inicial.r, inicial.g, inicial.b, 0f);
+        float t = 0;
+        while (t < duracionFadeOut)
         {
-            tiempoTranscurrido += Time.deltaTime;
-            img.color = Color.Lerp(colorActual, colorFinalTransparente, tiempoTranscurrido / duracionFadeOut);
+            t += Time.deltaTime;
+            img.color = Color.Lerp(inicial, final, t / duracionFadeOut);
             yield return null;
         }
-
-        // Asegurar que quede transparente y apagar el objeto
-        img.color = colorFinalTransparente;
         img.gameObject.SetActive(false);
     }
 
-    // =========================================================
-    // FUNCIONES DE JUEGO EXISTENTES
-    // =========================================================
     void ToggleEnemigos(bool estado)
     {
-        foreach (GameObject enemigo in listaEnemigos)
-        {
-            if (enemigo != null) enemigo.SetActive(estado);
-        }
+        foreach (GameObject enemigo in listaEnemigos) if (enemigo != null) enemigo.SetActive(estado);
     }
 
     public void ProcesarChoqueFisico(Collision2D collision)
     {
-        GameObject objeto = collision.gameObject;
-        if (listaPuertas.Contains(objeto) && emocionActiva && emocionActual == "Ira")
+        if (listaPuertas.Contains(collision.gameObject) && emocionActual == "Ira")
         {
-            listaPuertas.Remove(objeto); Destroy(objeto); Debug.Log("¡Puerta derribada!");
+            listaPuertas.Remove(collision.gameObject);
+            Destroy(collision.gameObject);
         }
     }
 
     public void ProcesarTrigger(Collider2D other)
     {
-        GameObject objeto = other.gameObject;
-        if (objeto.CompareTag("Enemigo"))
-        {
-            if (emocionActiva && emocionActual == "Miedo") { return; }
+        if (other.CompareTag("Enemigo") && emocionActual != "Miedo")
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
     }
 }
 
 public class PlayerUnifiedRelay : MonoBehaviour
 {
     public CambioEstados managerEstados;
-    private void OnCollisionEnter2D(Collision2D collision) { if (managerEstados != null) managerEstados.ProcesarChoqueFisico(collision); }
-    private void OnTriggerEnter2D(Collider2D other) { if (managerEstados != null) managerEstados.ProcesarTrigger(other); }
+
+    private void OnCollisionEnter2D(Collision2D collision) 
+    { 
+        if (managerEstados != null) managerEstados.ProcesarChoqueFisico(collision); 
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) 
+    { 
+        if (managerEstados != null) managerEstados.ProcesarTrigger(other); 
+    }
 }
