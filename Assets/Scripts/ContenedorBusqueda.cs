@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class ContenedorBusqueda : MonoBehaviour
 {
+    [Header("Configuración de Audio")]
+    public AudioSource audioSource; // Arrastra el AudioSource aquí
+    public AudioClip sonidoPildoraEncontrada; // El sonido de éxito
+    public AudioClip sonidoContenedorVacio;   // Opcional: Sonido de "no hay nada"
+
     [Header("Estado (No tocar, se asigna solo)")]
     public bool tienePildora = false; 
     public bool yaFueRevisado = false;
@@ -21,13 +26,16 @@ public class ContenedorBusqueda : MonoBehaviour
         {
             Debug.Log("¡Encontraste pastillas!");
             
-            // 1. Aumentar cordura
+            // 1. Reproducir Audio de éxito
+            ReproducirSonido(sonidoPildoraEncontrada);
+
+            // 2. Aumentar cordura
             if (sistemaCordura != null)
             {
                 sistemaCordura.IncreaseSanity(20f);
             }
 
-            // 2. Crear el efecto visual de la pildora
+            // 3. Crear el efecto visual de la pildora
             if (prefabPildoraVisual != null)
             {
                 Instantiate(prefabPildoraVisual, transform.position, Quaternion.identity);
@@ -36,7 +44,17 @@ public class ContenedorBusqueda : MonoBehaviour
         else
         {
             Debug.Log("Aquí no hay nada...");
-            // Opcional: Sonido de vacío o feedback visual de "Vacío"
+            // Reproducir sonido de vacío si se desea
+            ReproducirSonido(sonidoContenedorVacio);
+        }
+    }
+
+    // Método auxiliar para reproducir audio de forma segura
+    private void ReproducirSonido(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 }
